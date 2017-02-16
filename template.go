@@ -10,7 +10,8 @@ func main() {
 		w.Header().Add("Content Type", "text/html")
 		tmpl, err := template.New("test").Parse(doc)
 		if err == nil {
-			tmpl.Execute(w, req.URL.Path)
+			context := Context{"the message"}
+			tmpl.Execute(w, context)
 		}
 	})
 
@@ -22,7 +23,11 @@ const doc = `
 <html>
   <head><title>Example Title</title></head>
   <body>
-    <h1>Hello {{.}}</h1>
+    <h1>Hello {{.Message}}</h1>
   </body>
 </html>
 `
+
+type Context struct {
+	Message string
+}
