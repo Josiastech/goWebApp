@@ -3,8 +3,9 @@ package main // Package where the code belongs to
 import (
 	// List of packages to be imported
 	"net/http"
-	"io/ioutil"
 	"strings"
+	"os"
+	"bufio"
 )
 
 func main()  {
@@ -24,9 +25,10 @@ type MyHandler struct {
 
 func (this *MyHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := "public" + req.URL.Path
-	data, err := ioutil.ReadFile(string(path))
+	f, err := os.Open(path)
 
 	if err == nil {
+		bufferedReader := bufio.NewReader(f)
 		var contentType string
 		if strings.HasSuffix(path, ".css") {
 			contentType = "text/css"
@@ -40,8 +42,10 @@ func (this *MyHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			contentType = "text/plain"
 		}
 
+
+
 		w.Header().Add("Content Type", contentType)
-		w.Write(data)
+		bufferedReader.WriteTo(w)
 	} else {
 		w.WriteHeader(404)
 		w.Write([]byte("404 - " + http.StatusText(404)))
