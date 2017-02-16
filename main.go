@@ -15,7 +15,7 @@ func main()  {
 
 	// Nil to tell GO that we want to use the default server multiplexer
 	// or MUX to handle the request
-	http.ListenAndServe(":8000", nil)
+	//http.ListenAndServe(":8000", nil)
 }
 
 
