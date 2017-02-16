@@ -10,7 +10,7 @@ func main() {
 		w.Header().Add("Content Type", "text/html")
 		tmpl, err := template.New("test").Parse(doc)
 		if err == nil {
-			tmpl.Execute(w, nil)
+			tmpl.Execute(w, req.URL.Path)
 		}
 	})
 
@@ -22,7 +22,7 @@ const doc = `
 <html>
   <head><title>Example Title</title></head>
   <body>
-    <h1>Hello Templates</h1>
+    <h1>Hello {{.}}</h1>
   </body>
 </html>
 `
